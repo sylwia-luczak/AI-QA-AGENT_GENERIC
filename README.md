@@ -1,5 +1,6 @@
 # AI Test Agent Toolkit
 
+**Created by:** [Sylwia Łuczak-Jagiełła](https://github.com/sylwia-luczak) — QA Engineer & AI tooling enthusiast  
 **Created with:** GitHub Copilot (Claude Sonnet 4.6)
 
 ---
@@ -172,3 +173,13 @@ The agent and all skills in this toolkit will never:
 
 Jira ticket details (title, description, comments) are fetched automatically via `jira_tool.py` —
 the user only needs to provide the ticket number.
+
+---
+
+## Feedback
+
+Jeżeli to narzędzie okazało się przydatne i pomogło Ci w codziennej pracy — będzie mi bardzo miło, jeśli zostawisz kilka słów na [GitHubie](https://github.com/sylwia-luczak/AI-skills) (⭐ gwiazdka lub komentarz w Discussions też się liczy!).
+
+Jeśli widzisz coś do poprawy lub masz pomysł na nową funkcjonalność — śmiało otwórz [Issue](https://github.com/sylwia-luczak/AI-skills/issues) lub napisz bezpośrednio. Chętnie wprowadzę zmiany.
+
+> Autorka: [Sylwia Łuczak-Jagiełła](https://github.com/sylwia-luczak)
