@@ -1,49 +1,118 @@
-# AI Test Agent Prompt Toolkit
+# AI Test Agent Toolkit
 
-**Author:** Sylwia Łuczak-Jagiela
 **Created with:** GitHub Copilot (Claude Sonnet 4.6)
 
 ---
 
 ## Overview
 
-This toolkit is a set of structured prompt files for VS Code's GitHub Copilot agent.
-Together they define a repeatable, step-by-step **AI-assisted test analysis workflow** for software development tickets.
+This toolkit is a **GitHub Copilot Agent** with a set of structured **Skills** for VS Code.
+Together they define a repeatable, step-by-step **AI-assisted test analysis workflow** for any
+software development ticket tracked in JIRA.
 
-The workflow was originally designed for the **FTRS (Find the Right Service)** project at NHS England,
-but the underlying methodology — requirements analysis, BDD test planning, automation evaluation,
-regression risk assessment — applies to any software project.
+The methodology — requirements analysis, BDD test planning, automation evaluation, regression
+risk assessment — is project-agnostic and can be adapted to any tech stack.
 
-> **Note on naming:** The `ftrs-` prefix in filenames reflects the original project context.
-> When adapting this toolkit for a different project, rename the files accordingly
-> (e.g., `myproject-test-agent.prompt.md`) and update project-specific references inside each file
-> (save paths, naming conventions, technology stack).
+---
+
+## Repository Structure
+
+```
+AI-skills/
+├── agents/
+│   └── test-agent.agent.md          ← Agent orchestrator (main entry point)
+├── skills/
+│   ├── 01-requirements-analysis/
+│   │   └── SKILL.md                 ← Extract requirements + verify implementation
+│   ├── 02-unit-test-assessment/
+│   │   └── SKILL.md                 ← Analyse unit test coverage
+│   ├── 03-manual-test-plan/
+│   │   └── SKILL.md                 ← Generate BDD test scenarios
+│   ├── 04-automation-evaluation/
+│   │   └── SKILL.md                 ← Evaluate automation justification
+│   ├── 05-test-plan-output/
+│   │   └── SKILL.md                 ← Generate test plan document + branch proposal
+│   └── 06-regression-matrix/
+│       └── SKILL.md                 ← Regression risk matrix (fully independent)
+└── tools/
+    ├── jira_tool.py                 ← Fetch ticket details, post comments
+    ├── confluence_tool.py           ← Upload test plans to Confluence
+    ├── run_pytest_with_html_report.sh ← Run automation tests and generate HTML report
+    ├── .env.example                 ← Required environment variables
+    └── README.md                    ← Setup and configuration guide
+```
+
+---
+
+## Skill Dependencies
+
+All skills can be **invoked independently** with only ticket context provided.
+The agent orchestrates them in order for maximum completeness.
+
+| Skill | Independent? | Notes |
+|---|---|---|
+| `test-agent` (agent) | ✅ Yes | Orchestrator — start here for every new ticket |
+| `/01-requirements-analysis` | ✅ Yes | Needs ticket number only |
+| `/02-unit-test-assessment` | ✅ Soft | Richer output when step 01 is done first |
+| `/03-manual-test-plan` | ✅ Soft | Richer output when step 01 is done first |
+| `/04-automation-evaluation` | ✅ Soft | Richer output when steps 01 + 03 are done first |
+| `/06-regression-matrix` | ✅ Yes | Fully independent — can run at any point |
+| `/05-test-plan-output` | ⚠️ Soft | Assembles all prior outputs — run last for best results |
+
+> **Soft dependency** means: the skill checks for prior step output in the current session.
+> If not found, it fetches ticket context independently and proceeds on its own.
 
 ---
 
 ## Purpose
 
-Instead of writing ad hoc test plans or relying on memory for what to check, this toolkit ensures that:
+Instead of writing ad hoc test plans or relying on memory for what to check, this toolkit ensures:
 
 - Every ticket is analysed in the **same structured order**
 - Nothing is skipped (negative paths, edge cases, regression impact)
 - Output is consistent and ready to copy into Jira or share with the team
-- Test plans and SQL data files are saved locally in a predictable location
+- Test plans and data files are saved locally in a predictable location
 - The agent never takes destructive actions (no direct commits to `main`, no automatic Jira posts)
 
 ---
 
-## Files
+## Installation
 
-| File | Slash Command | Purpose |
+### Personal use (available in all VS Code workspaces)
+
+Copy the `agents/` and `skills/` folders to your user-level Copilot config:
+
+```bash
+# macOS / Linux
+cp -r agents ~/.copilot/agents
+cp -r skills ~/.copilot/skills
+
+# Also copy the tools/ directory to your preferred scripts directory
+cp -r tools <YOUR_SCRIPTS_DIR>/tools
+```
+
+### Workspace use (scoped to a single project)
+
+Copy into your project's `.github/` folder:
+
+```bash
+cp -r agents .github/agents
+cp -r skills .github/skills
+```
+
+---
+
+## Configuration
+
+Before using the toolkit, set these values in the `test-agent.agent.md` and in any skill you
+invoke independently:
+
+| Variable | Description | Example |
 |---|---|---|
-| `ftrs-test-agent.prompt.md` | `/ftrs-test-agent` | **Main entry point.** Defines the agent role, constraints, initialization flow, and the full ordered execution sequence. Start here for every new ticket. |
-| `ftrs-requirements-analysis.prompt.md` | `/ftrs-requirements-analysis` | **Steps 1–2.** Extracts and structures functional and non-functional requirements from the ticket. Then verifies whether the implementation on `main` matches those requirements and reports discrepancies. |
-| `ftrs-unit-test-assessment.prompt.md` | `/ftrs-unit-test-assessment` | **Step 3.** Analyses existing unit tests: coverage, negative scenarios, edge cases, failure modes, mock appropriateness. Identifies gaps and recommends improvements. |
-| `ftrs-manual-test-plan.prompt.md` | `/ftrs-manual-test-plan` | **Step 4.** Generates manual test scenarios in BDD format (GIVEN / WHEN / THEN) covering happy path, negative scenarios, validation errors, feature flag states, and regression scenarios. |
-| `ftrs-automation-evaluation.prompt.md` | `/ftrs-automation-evaluation` | **Step 5.** Evaluates whether automated integration tests are justified. If yes, proposes test scope, structure, mocking strategy, CI impact, and example Gherkin scenarios using Python / Playwright / AWS. |
-| `ftrs-test-plan-output.prompt.md` | `/ftrs-test-plan-output` | **Steps 6–7.** Generates the final `FTRS-XXXX_test_plan.md` document and (if applicable) `FTRS-XXXX_test_data.sql`. Also proposes a valid git branch name following project conventions. |
-| `ftrs-regression-matrix.prompt.md` | `/ftrs-regression-matrix` | **Regression Risk Matrix.** Evaluates risk across 13 system areas (API, Lambda, Feature Flags, Database, Auth, CI/CD, etc.) and classifies each as LOW / MEDIUM / HIGH / CRITICAL. Mandatory in every test plan. |
+| `<SCRIPTS_DIR>` | Parent path containing your `tools/` folder | `/home/user/scripts` |
+| `<OUTPUT_DIR>` | Path where test plan files are saved | `/home/user/scripts` |
+| `<PROJECT_KEY>` | Your JIRA project key | `MYPROJECT` |
+| `<CONFLUENCE_SPACE>` | Your Confluence space key | `TEAM` |
 
 ---
 
@@ -54,49 +123,46 @@ Instead of writing ad hoc test plans or relying on memory for what to check, thi
 - VS Code with the **GitHub Copilot** extension installed and signed in
 - Copilot Chat enabled (agent mode)
 
-### Usage in Any Project
-
-Because these files are stored at the **user profile level**, they are available in every VS Code workspace automatically — no per-project setup is required.
+### Start the Workflow
 
 1. Open any project in VS Code
 2. Open Copilot Chat (`Ctrl+Alt+I` / `Cmd+Alt+I`) and switch to **Agent mode**
-3. Type `/` — the `ftrs-*` prompts will appear in the command list
-4. Select `/ftrs-test-agent` to start the workflow
+3. Select the `test-agent` from the agent picker, or type `/` to invoke individual skills
+4. Provide the ticket number — context is fetched automatically via `jira_tool.py`
 
 ### Recommended Workflow per Ticket
 
 ```
-/ftrs-test-agent                  ← start here, provide ticket number (description is auto-fetched via jira_tool.py)
-/ftrs-requirements-analysis       ← steps 1–2
-/ftrs-unit-test-assessment        ← step 3
-/ftrs-manual-test-plan            ← step 4
-/ftrs-automation-evaluation       ← step 5
-/ftrs-test-plan-output            ← steps 6–7 (generates documents)
-/ftrs-regression-matrix           ← included in the output document, can be run separately
+test-agent                     ← start here (orchestrates steps below automatically)
+  └── /01-requirements-analysis    ← step 1: extract requirements + verify implementation
+  └── /02-unit-test-assessment     ← step 2: analyse unit test coverage
+  └── /03-manual-test-plan         ← step 3: generate BDD test scenarios
+  └── /04-automation-evaluation    ← step 4: evaluate automation justification
+  └── /06-regression-matrix        ← step 5: regression risk matrix
+  └── /05-test-plan-output         ← step 6: generate documents + branch proposal
 ```
 
-Each prompt can also be used **independently** — for example, running only `/ftrs-regression-matrix`
+Each skill can also be used **independently** — for example, running only `/06-regression-matrix`
 on an existing ticket without going through the full flow.
 
 ---
 
-## Adapting for a Different Project
+## Adapting for Your Project
 
-To reuse this toolkit in a different project context:
+Update the following placeholders inside the files:
 
-1. Copy all files and rename them (e.g., replace `ftrs-` with your project prefix)
-2. Update the following project-specific references inside the files:
-   - **Save path** in `ftrs-test-plan-output.prompt.md` (currently `/Users/sylwia.luczak-jagiela/scripts`)
-   - **File naming convention** (currently `FTRS-XXXX_test_plan.md`)
-   - **Branch naming rules** (currently `task/FTRS-XXXX-description`)
-   - **Technology stack** in `ftrs-automation-evaluation.prompt.md`
-   - **Test data naming conventions** (OldDOS service ID patterns)
+- **`<SCRIPTS_DIR>`** / **`<OUTPUT_DIR>`** — your local path to scripts and output
+- **`<PROJECT_KEY>`** — your JIRA project key
+- **`<CONFLUENCE_SPACE>`** — your Confluence space key
+- **Technology stack** in `04-automation-evaluation/SKILL.md` — adapt to your cloud/infra
+- **Branch naming conventions** in `05-test-plan-output/SKILL.md` — adapt to your project rules
+- **Test data naming conventions** — define a pattern that suits your project
 
 ---
 
 ## Constraints and Safety Rules
 
-The agent operating under this toolkit will never:
+The agent and all skills in this toolkit will never:
 
 - Create test files without explicit instruction
 - Commit directly to the `main` branch
@@ -104,4 +170,5 @@ The agent operating under this toolkit will never:
 - Proceed without a ticket number
 - Post a Jira comment before all testing is complete and the test plan has been uploaded to Confluence
 
-Jira ticket details (title, description, comments) are fetched automatically via `jira_tool.py` — the user only needs to provide the ticket number.
+Jira ticket details (title, description, comments) are fetched automatically via `jira_tool.py` —
+the user only needs to provide the ticket number.
