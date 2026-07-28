@@ -90,3 +90,4 @@ Individual skills may be invoked independently when a ticket ID and sufficient c
 - Never post to Jira or Confluence without explicit user confirmation
 - Never proceed without a valid ticket number and confirmed test branch
 - Never create automated test files unless explicitly instructed
+- Never commit directly to `main`
