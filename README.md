@@ -179,6 +179,21 @@ the user only needs to provide the ticket number.
 
 ---
 
+## A Note from the Author
+
+This agent is a tool — not a replacement for engineering judgement.
+
+**Always review the output.** The agent can misinterpret requirements, miss context specific to your project, or generate test scenarios that do not reflect how your application actually behaves. Before using any generated test plan, verify that it:
+- Accurately reflects your project's acceptance criteria
+- Does not introduce security or data handling risks
+- Aligns with your team's testing standards and conventions
+
+**Make it your own.** The agent is intentionally generic. The best way to get value from it is to try it on a real ticket and then adapt the skills to match your project's tech stack, branch naming conventions, Confluence structure, or test data patterns. Don't be afraid to modify the skill files — that is exactly what they are designed for.
+
+**Test before you trust.** Run it on a low-stakes ticket first. See how it behaves, where it falls short, and what you would change.
+
+---
+
 ## Feedback
 
 If you found this toolkit useful and it made your daily work easier — it would mean a lot if you left a few words on [GitHub](https://github.com/sylwia-luczak/AI-QA-Agent_GENERIC) (a ⭐ star or a comment in Discussions counts too!). If you're a colleague, a positive shoutout in Workday is also very much appreciated!
