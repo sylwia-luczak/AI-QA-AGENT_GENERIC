@@ -181,8 +181,8 @@ the user only needs to provide the ticket number.
 
 ## Feedback
 
-If you found this toolkit useful and it made your daily work easier — it would mean a lot if you left a few words on [GitHub](https://github.com/sylwia-luczak/AI-skills) (a ⭐ star or a comment in Discussions counts too!).
+If you found this toolkit useful and it made your daily work easier — it would mean a lot if you left a few words on [GitHub](https://github.com/sylwia-luczak/AI-QA-Agent_GENERIC) (a ⭐ star or a comment in Discussions counts too!). If you're a colleague, a positive shoutout in Workday is also very much appreciated!
 
-If you spot something that could be improved or have an idea for a new feature — feel free to open an [Issue](https://github.com/sylwia-luczak/AI-skills/issues) or reach out directly. Feedback is always welcome.
+If you spot something that could be improved or have an idea for a new feature — feel free to open an [Issue](https://github.com/sylwia-luczak/AI-QA-Agent_GENERIC/issues) or reach out directly. Feedback is always welcome.
 
 > Author: [Sylwia Łuczak-Jagiełła](https://github.com/sylwia-luczak)
