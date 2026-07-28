@@ -178,8 +178,8 @@ the user only needs to provide the ticket number.
 
 ## Feedback
 
-Jeżeli to narzędzie okazało się przydatne i pomogło Ci w codziennej pracy — będzie mi bardzo miło, jeśli zostawisz kilka słów na [GitHubie](https://github.com/sylwia-luczak/AI-skills) (⭐ gwiazdka lub komentarz w Discussions też się liczy!).
+If you found this toolkit useful and it made your daily work easier — it would mean a lot if you left a few words on [GitHub](https://github.com/sylwia-luczak/AI-skills) (a ⭐ star or a comment in Discussions counts too!).
 
-Jeśli widzisz coś do poprawy lub masz pomysł na nową funkcjonalność — śmiało otwórz [Issue](https://github.com/sylwia-luczak/AI-skills/issues) lub napisz bezpośrednio. Chętnie wprowadzę zmiany.
+If you spot something that could be improved or have an idea for a new feature — feel free to open an [Issue](https://github.com/sylwia-luczak/AI-skills/issues) or reach out directly. Feedback is always welcome.
 
-> Autorka: [Sylwia Łuczak-Jagiełła](https://github.com/sylwia-luczak)
+> Author: [Sylwia Łuczak-Jagiełła](https://github.com/sylwia-luczak)
