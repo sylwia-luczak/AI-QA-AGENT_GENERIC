@@ -23,6 +23,8 @@ AI-skills/
 ├── agents/
 │   └── test-agent.agent.md          ← Agent orchestrator (main entry point)
 ├── skills/
+│   ├── 00-config/
+│   │   └── SKILL.md                 ← Single source of truth for all environment variables
 │   ├── 01-requirements-analysis/
 │   │   └── SKILL.md                 ← Extract requirements + verify implementation
 │   ├── 02-unit-test-assessment/
@@ -52,6 +54,7 @@ The agent orchestrates them in order for maximum completeness.
 
 | Skill | Independent? | Notes |
 |---|---|---|
+| `/00-config` | ✅ Yes | **Configure once** — single source of truth for all paths and keys |
 | `test-agent` (agent) | ✅ Yes | Orchestrator — start here for every new ticket |
 | `/01-requirements-analysis` | ✅ Yes | Needs ticket number only |
 | `/02-unit-test-assessment` | ✅ Soft | Richer output when step 01 is done first |
