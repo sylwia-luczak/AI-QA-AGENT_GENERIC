@@ -1,6 +1,6 @@
 # AI Test Agent Toolkit
 
-**Created by:** [Sylwia Łuczak-Jagiełła](https://github.com/sylwia-luczak) — QA Engineer & AI tooling enthusiast  
+**Created by:** [Sylwia Łuczak-Jagieła](https://github.com/sylwia-luczak) — QA Engineer & AI tooling enthusiast  
 **Created with:** GitHub Copilot (Claude Sonnet 4.6)
 
 ---
