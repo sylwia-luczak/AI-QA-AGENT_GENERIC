@@ -33,10 +33,10 @@ AI-skills/
 │   │   └── SKILL.md                 ← Generate BDD test scenarios
 │   ├── 04-automation-evaluation/
 │   │   └── SKILL.md                 ← Evaluate automation justification
-│   ├── 05-test-plan-output/
-│   │   └── SKILL.md                 ← Generate test plan document + branch proposal
-│   └── 06-regression-matrix/
-│       └── SKILL.md                 ← Regression risk matrix (fully independent)
+│   ├── 05-regression-matrix/
+│   │   └── SKILL.md                 ← Regression risk matrix (fully independent)
+│   └── 06-test-plan-output/
+│       └── SKILL.md                 ← Generate test plan document + branch proposal
 └── tools/
     ├── jira_tool.py                 ← Fetch ticket details, post comments
     ├── confluence_tool.py           ← Upload test plans to Confluence
@@ -60,8 +60,8 @@ The agent orchestrates them in order for maximum completeness.
 | `/02-unit-test-assessment` | ✅ Soft | Richer output when step 01 is done first |
 | `/03-manual-test-plan` | ✅ Soft | Richer output when step 01 is done first |
 | `/04-automation-evaluation` | ✅ Soft | Richer output when steps 01 + 03 are done first |
-| `/06-regression-matrix` | ✅ Yes | Fully independent — can run at any point |
-| `/05-test-plan-output` | ⚠️ Soft | Assembles all prior outputs — run last for best results |
+| `/05-regression-matrix` | ✅ Yes | Fully independent — can run at any point |
+| `/06-test-plan-output` | ⚠️ Soft | Assembles all prior outputs — run last for best results |
 
 > **Soft dependency** means: the skill checks for prior step output in the current session.
 > If not found, it fetches ticket context independently and proceeds on its own.
@@ -142,11 +142,11 @@ test-agent                     ← start here (orchestrates steps below automati
   └── /02-unit-test-assessment     ← step 2: analyse unit test coverage
   └── /03-manual-test-plan         ← step 3: generate BDD test scenarios
   └── /04-automation-evaluation    ← step 4: evaluate automation justification
-  └── /06-regression-matrix        ← step 5: regression risk matrix
-  └── /05-test-plan-output         ← step 6: generate documents + branch proposal
+  └── /05-regression-matrix        ← step 5: regression risk matrix
+  └── /06-test-plan-output         ← step 6: generate documents + branch proposal
 ```
 
-Each skill can also be used **independently** — for example, running only `/06-regression-matrix`
+Each skill can also be used **independently** — for example, running only `/05-regression-matrix`
 on an existing ticket without going through the full flow.
 
 ---
@@ -159,7 +159,7 @@ Update the following placeholders inside the files:
 - **`<PROJECT_KEY>`** — your JIRA project key
 - **`<CONFLUENCE_SPACE>`** — your Confluence space key
 - **Technology stack** in `04-automation-evaluation/SKILL.md` — adapt to your cloud/infra
-- **Branch naming conventions** in `05-test-plan-output/SKILL.md` — adapt to your project rules
+- **Branch naming conventions** in `06-test-plan-output/SKILL.md` — adapt to your project rules
 - **Test data naming conventions** — define a pattern that suits your project
 
 ---
