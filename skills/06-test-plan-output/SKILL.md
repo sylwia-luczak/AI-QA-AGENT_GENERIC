@@ -76,9 +76,21 @@ Apply consistent naming:
 Once files are saved, offer the following actions:
 
 ### Post comment to Jira
-```bash
-python <SCRIPTS_DIR>/tools/jira_tool.py comment <TICKET> --file <OUTPUT_DIR>/<TICKET>_comment.md
-```
+
+Prepare a short summary comment as plain text in the chat. This applies whether the comment
+follows the full pipeline or is requested standalone (e.g. the user ran manual tests
+themselves and reports the results for a comment).
+
+Follow the **Jira Comment Approval Flow**:
+1. Draft the comment and show it in the chat.
+2. Ask explicitly: "Do you approve this comment? Should I post it to `<TICKET>`?"
+3. Only after an explicit, affirmative confirmation, post it:
+   ```bash
+   python <SCRIPTS_DIR>/tools/jira_tool.py comment <TICKET> --file <OUTPUT_DIR>/<TICKET>_comment.md
+   ```
+4. Confirm to the user once posted.
+
+❗ Never post without having just received explicit approval for that exact comment.
 
 ### Upload test plan to Confluence
 ```bash

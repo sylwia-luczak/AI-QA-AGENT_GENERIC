@@ -29,7 +29,7 @@ Execute a structured, repeatable QA workflow for a single JIRA ticket, producing
 - Evaluating whether automation is justified for the ticket
 - Producing a regression risk matrix
 - Saving a structured test plan `.md` file to `<OUTPUT_DIR>`
-- Drafting a Jira comment as plain text for copy-paste (never posted automatically)
+- Drafting a Jira comment and posting it via `jira_tool.py`, but only after following the **Jira Comment Approval Flow** below
 
 ## Out of Scope
 
@@ -81,6 +81,25 @@ python <SCRIPTS_DIR>/tools/jira_tool.py fetch <TICKET_NUMBER>
 ```
 
 Individual skills may be invoked independently when a ticket ID and sufficient context are already available in the session.
+
+---
+
+## Jira Comment Approval Flow
+
+The Jira comment is normally the **last action**, once all test scenarios have been executed and results are known (pass / fail / blocked). It can also be requested standalone — e.g. the user runs manual tests themselves, reports the results in chat, and asks for a ticket comment.
+
+In either case, always follow this exact sequence:
+
+1. **Draft** the comment as plain text in the chat, based on the test results provided or produced.
+2. **Ask explicitly**: "Do you approve this comment? Should I post it to `<TICKET>`?" — never skip this question.
+3. **Wait for explicit, affirmative confirmation** (e.g. "yes", "approved", "post it", "go ahead"). Silence, an unrelated reply, or a request to edit the comment does **not** count as approval — re-ask after making changes.
+4. **Only after explicit approval**, post it:
+   ```bash
+   python <SCRIPTS_DIR>/tools/jira_tool.py comment <TICKET> --file <path>
+   ```
+5. Confirm to the user once the comment has been posted.
+
+❗ Never post a comment on an assumption of consent, and never post a comment that hasn't just been shown to and approved by the user in this conversation.
 
 ---
 
