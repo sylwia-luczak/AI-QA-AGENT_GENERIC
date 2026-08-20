@@ -81,6 +81,21 @@ Prepare a short summary comment as plain text in the chat. This applies whether 
 follows the full pipeline or is requested standalone (e.g. the user ran manual tests
 themselves and reports the results for a comment).
 
+#### Comment Content
+
+The comment must include:
+
+1. **Manual test results** — summary of scenarios executed and their outcome (PASS / FAIL / BLOCKED)
+2. **Confluence link** — link to the page with full scenario evidence
+3. **PR link** — if automation tests were added or updated as part of this ticket
+4. **Unit & integration test coverage** — a short note confirming this functionality is also covered
+   by unit/integration tests, using the step 02 (`02-unit-test-assessment`) verdict. Where available,
+   state how many tests cover it and briefly what they cover (e.g. "3 unit tests covering validation,
+   mapping, and the feature-flag OFF path"). This is added value surfaced from the requirements
+   analysis (steps 01) and unit test assessment (step 02) — it gives reviewers a complete picture of
+   test coverage, not just the manual scenarios. If step 02 was not run in this session, omit this
+   point rather than guessing.
+
 Follow the **Jira Comment Approval Flow**:
 1. Draft the comment and show it in the chat.
 2. Ask explicitly: "Do you approve this comment? Should I post it to `<TICKET>`?"
