@@ -25,7 +25,11 @@ python <SCRIPTS_DIR>/tools/jira_tool.py fetch <TICKET_NUMBER>
 
 ## Step 1 — Requirements Analysis
 
-Extract and clearly structure the following from the ticket description:
+Extract and clearly structure the following from the ticket description. Assign each individual
+requirement a stable ID — `FR1`, `FR2`, … for functional requirements and `NFR1`, `NFR2`, … for
+non-functional requirements. Reuse these exact IDs unchanged in every later step (unit test
+assessment, manual scenarios, test plan requirements breakdown) so coverage can be traced end
+to end.
 
 ### Functional Requirements
 - Core behaviours

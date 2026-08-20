@@ -15,7 +15,7 @@ tools:
 
 ## Purpose
 
-Execute a structured, repeatable QA workflow for a single JIRA ticket, producing a complete test plan document. Each step must be completed in order. No steps may be skipped or reordered.
+Execute a structured, repeatable QA workflow for a single JIRA ticket, producing a complete test plan document. Each step must be completed in order. No steps may be skipped or reordered. Ask only when genuinely blocked (missing required input, a failed fetch, an unresolvable ambiguity, or before an action gate) — never ask permission just to move from one step to the next.
 
 ---
 
@@ -28,7 +28,7 @@ Execute a structured, repeatable QA workflow for a single JIRA ticket, producing
 - Generating BDD (GIVEN/WHEN/THEN) manual test scenarios
 - Evaluating whether automation is justified for the ticket
 - Producing a regression risk matrix
-- Saving a structured test plan `.md` file to `<OUTPUT_DIR>`
+- Saving a structured test plan `.md` file to `<OUTPUT_DIR>`, including a QA Summary Table (see `06-test-plan-output`)
 - Drafting a Jira comment and posting it via `jira_tool.py`, but only after following the **Jira Comment Approval Flow** below
 
 ## Out of Scope
@@ -66,21 +66,45 @@ Configure once in `skills/00-config/SKILL.md`:
 
 ## Execution Order
 
+Run all steps sequentially **without pausing to ask permission between them**. Present each
+step's output as soon as it's ready, then continue immediately to the next step. Only stop
+early if required input for that step is genuinely missing, or you reach an action gate (Jira
+comment approval, Confluence upload confirmation, offer to run automation tests).
+
 | Step | Skill | Output |
 |---|---|---|
-| 1 | `/01-requirements-analysis` | Structured requirements + implementation verification |
+| 1 | `/01-requirements-analysis` | Structured requirements (with `FR`/`NFR` IDs) + implementation verification |
 | 2 | `/02-unit-test-assessment` | Unit test coverage gap report |
 | 3 | `/03-manual-test-plan` | BDD test scenarios |
 | 4 | `/04-automation-evaluation` | Automation recommendation |
-| 5 | `/05-test-plan-output` | Test plan `.md` file + branch proposal |
-| 6 | `/06-regression-matrix` | Regression risk matrix (appended to test plan) |
+| 5 | `/05-regression-matrix` | Regression risk matrix |
+| 6 | `/06-test-plan-output` | Test plan `.md` file (incl. QA Summary Table) + branch proposal |
 
 Fetch ticket before step 1:
 ```bash
 python <SCRIPTS_DIR>/tools/jira_tool.py fetch <TICKET_NUMBER>
 ```
+If the fetch fails, retry once. If it still fails, ask the user to paste the ticket
+title/description/ACs directly in chat rather than blocking indefinitely, then continue from
+that pasted content.
 
 Individual skills may be invoked independently when a ticket ID and sufficient context are already available in the session.
+
+---
+
+## Requirement Traceability
+
+Step 01 assigns each requirement a stable ID (`FR1`, `FR2`, … / `NFR1`, `NFR2`, …). Reuse these
+same IDs unchanged in every later step (unit test coverage, manual scenarios, test plan
+requirements breakdown) so coverage can be traced end to end from requirement to test evidence.
+
+---
+
+## Error Handling & Recovery
+
+- **Ticket fetch fails**: retry once, then fall back to asking the user to paste ticket content directly
+- **Resuming an interrupted session**: before restarting from step 01, check the current chat/session for outputs already produced for this ticket. Only re-run steps whose output is missing or the user says is stale — do not silently redo completed work
+- **Codebase/branch not accessible**: note this explicitly in the implementation verification output and proceed with ticket-description-only analysis rather than blocking the whole workflow
 
 ---
 
@@ -106,6 +130,7 @@ In either case, always follow this exact sequence:
 ## Rules
 
 - Write all output in **British English**
+- Minimise questions: ask only when genuinely blocked — never ask permission just to move between analysis steps
 - Never post to Jira or Confluence without explicit user confirmation
 - Never proceed without a valid ticket number and confirmed test branch
 - Never create automated test files unless explicitly instructed

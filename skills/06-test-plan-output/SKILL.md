@@ -49,14 +49,26 @@ Replace `<TICKET>` with the actual ticket number (e.g., `PROJECT-1234`).
 The `<TICKET>_test_plan.md` must include all of the following sections:
 
 1. **Summary** — brief description of what this ticket does and the test scope
-2. **Risk Assessment** — key risks identified
-3. **Requirements Breakdown** — structured list of functional and non-functional requirements
-4. **Manual BDD Scenarios** — all scenarios from step 03
-5. **Automation Recommendation** — justified recommendation from step 04
-6. **Regression Impact** — areas at risk of regression
-7. **Environment Impact** — any environment-specific concerns
-8. **Open Questions** — unresolved ambiguities or missing acceptance criteria
-9. **Regression Risk Matrix** — full matrix from step 06 (`/06-regression-matrix`)
+2. **QA Summary Table** — one-glance rollup: ticket number, overall risk level (from step 06 regression matrix), automation recommendation (step 04), unit test coverage verdict (step 02), manual test result if already executed
+3. **Risk Assessment** — key risks identified
+4. **Requirements Breakdown** — structured list of functional (`FR1`, `FR2`, …) and non-functional (`NFR1`, `NFR2`, …) requirements, using the same IDs assigned in step 01
+5. **Manual BDD Scenarios** — all scenarios from step 03, each tagged with the requirement ID(s) it covers
+6. **Automation Recommendation** — justified recommendation from step 04
+7. **Regression Impact** — areas at risk of regression
+8. **Environment Impact** — any environment-specific concerns
+9. **Open Questions** — unresolved ambiguities or missing acceptance criteria
+10. **Regression Risk Matrix** — full matrix from step 06 (`/06-regression-matrix`)
+
+---
+
+### QA Summary Table
+
+Include this table at the top of the test plan document and repeat it in chat as a quick
+rollup once the pipeline finishes:
+
+| Ticket | Risk Level | Automation Recommendation | Unit Test Coverage | Manual Test Result |
+|---|---|---|---|---|
+| `<TICKET>` | (highest level from step 06 matrix) | (from step 04) | (verdict from step 02) | PASS / FAIL / BLOCKED / Not yet executed |
 
 ---
 

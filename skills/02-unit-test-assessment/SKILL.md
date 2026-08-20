@@ -44,7 +44,7 @@ Answer each question explicitly for the ticket in scope:
 
 ## Output
 
-1. **Coverage gaps** — list any untested scenarios with specific references to requirements
+1. **Coverage gaps** — list any untested scenarios with specific references to requirements, using the `FR`/`NFR` IDs from step 01 wherever the gap maps to a specific requirement
 2. **Recommendations** — specific improvements with justification
 3. **Summary verdict** — one of:
    - ✅ **Pass** — adequate coverage found

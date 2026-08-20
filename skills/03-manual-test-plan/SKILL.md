@@ -45,7 +45,7 @@ infrastructure. They are not a re-run of unit test logic in Gherkin syntax.
 Before drafting scenarios, re-read the **step 02 output** (`02-unit-test-assessment`) for this
 ticket, if available.
 
-For each functional requirement or AC, apply this filter:
+For each functional requirement or AC (use the `FR`/`NFR` IDs assigned in step 01), apply this filter:
 
 | Question | If YES → | If NO →|
 |---|---|---|
@@ -117,9 +117,13 @@ Each scenario must be:
 
 ## Required Output Note — Coverage Decisions
 
-Alongside the scenarios, include a short **"Scenarios Not Written"** list: ACs or categories
-deliberately skipped because they are already covered by passing unit tests, with a one-line
-justification each. This makes the deduplication decision visible and reviewable.
+Alongside the scenarios, include a short **"Scenarios Not Written"** list: requirement IDs
+(`FR`/`NFR`) or categories deliberately skipped because they are already covered by passing unit
+tests, with a one-line justification each. This makes the deduplication decision visible and
+reviewable.
+
+Each written scenario should also state which requirement ID(s) it covers (e.g. "Covers: FR2, FR4")
+so coverage stays traceable end to end.
 
 ---
 
