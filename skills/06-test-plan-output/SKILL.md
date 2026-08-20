@@ -39,8 +39,12 @@ Generate a structured test plan document and (if required) a test data SQL file.
 ```
 <TICKET>_test_plan.md
 <TICKET>_test_data.sql
+<TICKET>_scenarios.md
 ```
-Replace `<TICKET>` with the actual ticket number (e.g., `PROJECT-1234`).
+Replace `<TICKET>` with the actual ticket number (e.g., `PROJECT-1234`). `<TICKET>_scenarios.md`
+contains only the manual scenarios formatted per
+[confluence-format.md](./references/confluence-format.md) — this is the file uploaded to
+Confluence, not the full test plan document (see below).
 
 ---
 
@@ -87,6 +91,33 @@ Apply consistent naming:
 
 Once files are saved, offer the following actions:
 
+### Upload Manual Scenarios to Confluence — Ask When Ready to Test
+
+This is **not** an immediate follow-up to generating the test plan. It happens later, once the
+user has reviewed the test plan, made any adjustments, and is about to start executing the
+manual scenarios.
+
+1. After sharing the test plan document, do **not** upload to Confluence yet.
+2. When the user indicates they're reviewing the plan or about to start testing, ask explicitly:
+   > "Once you're ready to start testing, could you share the Confluence page link (ideally an
+   > empty page) where I should upload the manual scenarios? That way you can add screenshots
+   > and results directly on the page as you test."
+3. If the user doesn't have a page yet, offer to find one by ticket number instead:
+   ```bash
+   python <SCRIPTS_DIR>/tools/confluence_tool.py find --space <CONFLUENCE_SPACE> "<TICKET>"
+   ```
+4. Only after the page link/ID is confirmed, upload the **scenarios file** (not the full test plan):
+   ```bash
+   python <SCRIPTS_DIR>/tools/confluence_tool.py update <PAGE_ID> --file <OUTPUT_DIR>/<TICKET>_scenarios.md
+   ```
+
+❗ Never upload before the user has confirmed the page and is ready to test — the page must stay empty until then so it's ready to receive evidence.
+
+> For full Confluence page formatting requirements (scenario headers, step format, results section),
+> see [confluence-format.md](./references/confluence-format.md). Always follow this reference
+> exactly — do not copy the format from an existing Confluence page, as pages can drift from the
+> required format over time.
+
 ### Post comment to Jira
 
 Prepare a short summary comment as plain text in the chat. This applies whether the comment
@@ -118,20 +149,6 @@ Follow the **Jira Comment Approval Flow**:
 4. Confirm to the user once posted.
 
 ❗ Never post without having just received explicit approval for that exact comment.
-
-### Upload test plan to Confluence
-```bash
-# Find page by ticket number
-python <SCRIPTS_DIR>/tools/confluence_tool.py find --space <CONFLUENCE_SPACE> "<TICKET>"
-
-# Upload the test plan
-python <SCRIPTS_DIR>/tools/confluence_tool.py update <PAGE_ID> --file <OUTPUT_DIR>/<TICKET>_test_plan.md
-```
-
-Always confirm with the user before posting to Jira or Confluence.
-
-> For full Confluence page formatting requirements (scenario headers, step format, results section),
-> see [confluence-format.md](./references/confluence-format.md).
 
 ---
 
