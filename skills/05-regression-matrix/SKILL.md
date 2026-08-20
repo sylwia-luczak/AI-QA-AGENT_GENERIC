@@ -1,5 +1,5 @@
 ---
-name: 06-regression-matrix
+name: 05-regression-matrix
 description: >
   Regression Risk Matrix — generates a structured risk assessment matrix for a JIRA ticket.
   Evaluates risk level (LOW/MEDIUM/HIGH/CRITICAL) across 13 system areas: API Behaviour,
@@ -14,7 +14,7 @@ description: >
 argument-hint: '<PROJECT_KEY>-<TICKET_NUMBER>'
 ---
 
-# Step 06: Regression Risk Matrix
+# Step 05: Regression Risk Matrix
 
 ## Dependency
 **Fully independent** — can be invoked at any point in the workflow with only ticket context.

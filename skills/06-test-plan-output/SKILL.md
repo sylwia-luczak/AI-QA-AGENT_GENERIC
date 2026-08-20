@@ -1,11 +1,11 @@
 ---
-name: 05-test-plan-output
+name: 06-test-plan-output
 description: >
-  Step 5 & 6 — Test Plan Document Output and Branch Creation. Generates the final structured
+  Step 6 — Test Plan Document Output and Branch Creation. Generates the final structured
   test plan markdown document and (if required) a file with test data SQL statements.
   Also proposes a valid git branch name if automation is required, and offers to run existing
   automation tests against the target environment.
-  Soft dependency on steps 01-04 and 06 — assembles their outputs into the final document.
+  Soft dependency on steps 01-05 — assembles their outputs into the final document.
   Can be run independently but produces the most complete output when all prior steps are done.
   Files are saved to <OUTPUT_DIR> (configure to your local path).
   Keywords: test plan document, generate test plan, save test plan, SQL test data, branch name,
@@ -13,10 +13,10 @@ description: >
 argument-hint: '<PROJECT_KEY>-<TICKET_NUMBER>'
 ---
 
-# Step 05 & 06: Test Plan Output + Branch Creation
+# Step 06: Test Plan Output + Branch Creation
 
 ## Dependency
-**Soft dependency on steps 01–04 and 06.** Assembles all prior step outputs into the final
+**Soft dependency on steps 01–05.** Assembles all prior step outputs into the final
 document. If some steps have not been completed, note the gaps and generate the document with
 available information. If no prior steps are available, fetch ticket context first:
 ```bash
@@ -25,7 +25,7 @@ python <SCRIPTS_DIR>/tools/jira_tool.py fetch <TICKET_NUMBER>
 
 ---
 
-## Step 5 — Generate Test Plan Document
+## Generate Test Plan Document
 
 Generate a structured test plan document and (if required) a test data SQL file.
 
@@ -53,7 +53,7 @@ Confluence, not the full test plan document (see below).
 The `<TICKET>_test_plan.md` must include all of the following sections:
 
 1. **Summary** — brief description of what this ticket does and the test scope
-2. **QA Summary Table** — one-glance rollup: ticket number, overall risk level (from step 06 regression matrix), automation recommendation (step 04), unit test coverage verdict (step 02), manual test result if already executed
+2. **QA Summary Table** — one-glance rollup: ticket number, overall risk level (from step 05 regression matrix), automation recommendation (step 04), unit test coverage verdict (step 02), manual test result if already executed
 3. **Risk Assessment** — key risks identified
 4. **Requirements Breakdown** — structured list of functional (`FR1`, `FR2`, …) and non-functional (`NFR1`, `NFR2`, …) requirements, using the same IDs assigned in step 01
 5. **Manual BDD Scenarios** — all scenarios from step 03, each tagged with the requirement ID(s) it covers
@@ -61,7 +61,7 @@ The `<TICKET>_test_plan.md` must include all of the following sections:
 7. **Regression Impact** — areas at risk of regression
 8. **Environment Impact** — any environment-specific concerns
 9. **Open Questions** — unresolved ambiguities or missing acceptance criteria
-10. **Regression Risk Matrix** — full matrix from step 06 (`/06-regression-matrix`)
+10. **Regression Risk Matrix** — full matrix from step 05 (`/05-regression-matrix`)
 
 ---
 
@@ -72,7 +72,7 @@ rollup once the pipeline finishes:
 
 | Ticket | Risk Level | Automation Recommendation | Unit Test Coverage | Manual Test Result |
 |---|---|---|---|---|
-| `<TICKET>` | (highest level from step 06 matrix) | (from step 04) | (verdict from step 02) | PASS / FAIL / BLOCKED / Not yet executed |
+| `<TICKET>` | (highest level from step 05 matrix) | (from step 04) | (verdict from step 02) | PASS / FAIL / BLOCKED / Not yet executed |
 
 ---
 
@@ -152,7 +152,7 @@ Follow the **Jira Comment Approval Flow**:
 
 ---
 
-## Step 6 — Branch Creation (If Automation Required)
+## Branch Creation (If Automation Required)
 
 If automated tests will be implemented, propose a valid branch name.
 
@@ -183,7 +183,7 @@ The agent must:
 
 ---
 
-## Step 7 — Run Automation Tests (Optional)
+## Run Automation Tests (Optional)
 
 After the test plan is generated, offer to run the existing automation test suite against the
 target environment.
